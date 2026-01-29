@@ -36,4 +36,4 @@ A unique paste ID is generated
 
 The paste can be accessed at /p/[id]
 
-Data is stored in memory (resets on server restart)
+Data is stored in memory (resets on server restart)"# pastebin-lite" 
