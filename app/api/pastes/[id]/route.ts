@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
 import { pasteStore } from "@/app/lib/store";
 
-interface Params {
-  id: string;
-}
-
 export async function GET(
-  req: Request,
-  { params }: { params: Promise<Params> }
+  request: Request,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params; // ✅ MUST await
-
+  const { id } = await context.params;
   const content = pasteStore.get(id);
 
   if (!content) {
@@ -18,4 +13,4 @@ export async function GET(
   }
 
   return NextResponse.json({ content });
-  }
+}
