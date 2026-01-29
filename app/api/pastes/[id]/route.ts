@@ -1,25 +1,20 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { pasteStore } from "@/app/lib/store";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = params;
+  const { id } = await params; // ✅ FIX
 
-  if (!id) {
-    return NextResponse.json({ error: "ID not provided" }, { status: 400 });
-  }
+  const content = pasteStore.get(id);
 
-  try {
-    // TODO: Replace this with DB logic if needed
+  if (!content) {
     return NextResponse.json(
-      { content: {} },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch paste" },
-      { status: 500 }
+      { error: "Paste not found" },
+      { status: 404 }
     );
   }
+
+  return NextResponse.json({ content }, { status: 200 });
 }

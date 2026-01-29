@@ -1,0 +1,1 @@
+export const pasteStore = new Map<string, string>();
