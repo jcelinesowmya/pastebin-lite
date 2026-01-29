@@ -1,23 +1,20 @@
 interface PastePageProps {
-  params: Promise<{
-    id: string;
-  }>;
+  params: { id: string };
 }
 
 export default async function PastePage({ params }: PastePageProps) {
-  // ✅ IMPORTANT FIX
-  const { id } = await params;
+  const { id } = params;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/pastes?id=${id}`,
-    { cache: "no-store" }
-  );
+  const res = await fetch(`/api/pastes?id=${id}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
-    return <h2 style={{ textAlign: "center" }}>Paste not found</h2>;
+    return <div>Paste not found</div>;
   }
 
   const data = await res.json();
+
   return (
     <main
       style={{
