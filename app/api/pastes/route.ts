@@ -25,6 +25,5 @@ export async function POST(req: Request) {
       { error: "Failed to create paste" },
       { status: 500 }
     );
-  }
-
+   }
 }

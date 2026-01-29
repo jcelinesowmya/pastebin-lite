@@ -3,23 +3,19 @@ interface PageProps {
 }
 
 export default async function PastePage({ params }: PageProps) {
-  const { id } = await params; // ✅ IMPORTANT FIX
+  const { id } = await params; // ✅ MUST await
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/pastes/${id}`,
-    { cache: "no-store" }
-  );
+  const res = await fetch(`http://localhost:3000/api/pastes/${id}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "40vh" }}>
-        <h2>Paste not found</h2>
-      </div>
-    );
+    return <h2 style={{ textAlign: "center", marginTop: "40vh" }}>Paste not found</h2>;
   }
 
   const data = await res.json();
-  
+
+
   return (
     <main
       style={{
