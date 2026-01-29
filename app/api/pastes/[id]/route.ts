@@ -1,20 +1,25 @@
-import { Redis } from "@upstash/redis";
-import { NextResponse } from "next/server";
-
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-});
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  _req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const content = await redis.get(`paste:${params.id}`);
+  const { id } = params;
 
-  if (!content) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!id) {
+    return NextResponse.json({ error: "ID not provided" }, { status: 400 });
   }
 
-  return NextResponse.json({ content });
+  try {
+    // TODO: Replace this with DB logic if needed
+    return NextResponse.json(
+      { content: {} },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch paste" },
+      { status: 500 }
+    );
+  }
 }
